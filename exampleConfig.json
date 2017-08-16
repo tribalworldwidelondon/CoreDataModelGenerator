@@ -1,0 +1,19 @@
+{
+    "templates": [
+        {
+            "templateName": "CoreDataClass.stencil",
+            "templateOutputFileSuffix": "+CoreDataClass",
+            "overwriteIfExists": false,
+            "outputSubdirectory": ""
+        },
+        {
+            "templateName": "CoreDataProperties.stencil",
+            "templateOutputFileSuffix": "+CoreDataProperties",
+            "overwriteIfExists": true,
+            "outputSubdirectory": "generatedExtensions"
+        }
+    ],
+    "dataModelPath": "./myDataModel.xcdatamodel",
+    "outputDirectory": "./output",
+    "templatePath": "./templates"
+}

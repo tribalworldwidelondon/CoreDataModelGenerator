@@ -1,0 +1,74 @@
+{% include "HeaderBoilerplate.stencil" %}
+
+import Foundation
+import CoreData
+
+extension {{entity.representedClassName}} {
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<{{entity.representedClassName}}> {
+        return NSFetchRequest<{{entity.representedClassName}}>(entityName: "{{entity.representedClassName}}")
+    }
+
+    // MARK: Attributes
+    {% for attribute in entity.attributes %}
+    @NSManaged public var {{attribute.name}}: {{attribute.fullTypeName}}
+    {% endfor %}
+
+    {% if entity.relationships.count > 0 %}// MARK: Relationships{% endif %}
+    {% for relationship in entity.relationships %}
+    @NSManaged public var {{relationship.name}}: {{relationship.fullTypeName}}
+    {% endfor %}
+}
+
+{% for relationship in entity.relationships where relationship.toMany %}
+// MARK: Generated accessors for {{relationship.name}}
+extension {{entity.representedClassName}} {
+{% if relationship.ordered %}
+
+    @objc(insertObject:in{{relationship.name|titlecase}}AtIndex:)
+    @NSManaged public func insertInto{{relationship.name|titlecase}}(_ value: {{relationship.destinationEntity}}, at idx: Int)
+
+    @objc(removeObjectFrom{{relationship.name|titlecase}}AtIndex:)
+    @NSManaged public func removeFrom{{relationship.name|titlecase}}(at idx: Int)
+
+    @objc(insert{{relationship.name|titlecase}}:atIndexes:)
+    @NSManaged public func insertInto{{relationship.name|titlecase}}(_ values: [{{relationship.destinationEntity}}], at indexes: NSIndexSet)
+
+    @objc(remove{{relationship.name|titlecase}}atIndexes:)
+    @NSManaged public func removeFrom{{relationship.name|titlecase}}(at indexes: NSIndexSet)
+
+    @objc(replaceObjectIn{{relationship.name|titlecase}}AtIndex:withObject:)
+    @NSManaged public func replace{{relationship.name|titlecase}}(at idx: Int, with value: {{relationship.destinationEntity}})
+
+    @objc(replace{{relationship.name|titlecase}}AtIndexes:with{{relationship.name|titlecase}}:)
+    @NSManaged public func replace{{relationship.name|titlecase}}(at indexes: NSIndexSet, with values: [{{relationship.destinationEntity}}])
+
+    @objc(add{{relationship.name|titlecase}}Object:)
+    @NSManaged public func addTo{{relationship.name|titlecase}}(_ value: {{relationship.destinationEntity}})
+
+    @objc(remove{{relationship.name|titlecase}}Object:)
+    @NSManaged public func removeFrom{{relationship.name|titlecase}}(_ value: {{relationship.destinationEntity}})
+
+    @objc(add{{relationship.name|titlecase}}:)
+    @NSManaged public func addTo{{relationship.name|titlecase}}(_ values: NSOrderedSet)
+
+    @objc(remove{{relationship.name|titlecase}}:)
+    @NSManaged public func removeFrom{{relationship.name|titlecase}}(_ values: NSOrderedSet)
+{% else %}
+
+    @objc(add{{relationship.name|titlecase}}Object:)
+    @NSManaged public func addTo{{relationship.name|titlecase}}(_ value: {{relationship.destinationEntity}})
+
+    @objc(remove{{relationship.name|titlecase}}Object:)
+    @NSManaged public func removeFrom{{relationship.name|titlecase}}(_ value: {{relationship.destinationEntity}})
+
+    @objc(add{{relationship.name|titlecase}}:)
+    @NSManaged public func addTo{{relationship.name|titlecase}}(_ values: Set<{{relationship.destinationEntity}}>)
+
+    @objc(remove{{relationship.name|titlecase}}:)
+    @NSManaged public func removeFrom{{relationship.name|titlecase}}(_ values: Set<{{relationship.destinationEntity}}>)
+{% endif %}
+
+}
+
+{% endfor %}
