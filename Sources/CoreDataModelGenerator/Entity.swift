@@ -29,7 +29,7 @@ struct Entity {
     let representedClassName: String
     let isAbstract: Bool = false
     let syncable: Bool = false
-    var parentEntity: String?
+    var parentEntity: String = ""
 
     var attributes: [Attribute] = []
     var relationships: [Relationship] = []
