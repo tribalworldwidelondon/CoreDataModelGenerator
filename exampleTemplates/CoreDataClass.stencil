@@ -4,6 +4,6 @@ import Foundation
 import CoreData
 
 @objc({{entity.representedClassName}})
-public class {{entity.representedClassName}}: NSManagedObject {
+public class {{entity.representedClassName}}: {% if entity.parentEntity %}{{entity.parentEntity}}{% else %}NSManagedObject{% endif %} {
 
 }
