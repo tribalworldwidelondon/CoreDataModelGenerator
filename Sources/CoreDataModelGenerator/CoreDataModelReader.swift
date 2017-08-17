@@ -48,6 +48,10 @@ class CoreDataModelReader {
         var entity = Entity(name: xmlEntity.attributes["name"]!,
                             representedClassName: xmlEntity.attributes["representedClassName"]!)
         
+        if xmlEntity.attributes["parentEntity"] != nil {
+            entity.parentEntity = xmlEntity.attributes["parentEntity"]
+        }
+        
         let xmlEntityAttributes = xmlEntity.children.filter { $0.name == "attribute" }
         let xmlEntityRelationships = xmlEntity.children.filter { $0.name == "relationship" }
         

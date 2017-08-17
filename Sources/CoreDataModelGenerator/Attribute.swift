@@ -139,9 +139,9 @@ struct Attribute {
         
         var typeName = resolvedType.toTypeName()
         
-        if optional {
+        if optional && !resolvedType.isScalarType() {
             // If it's a scalar type, we don't need to unwrap.
-            if hasDefaultValue && !resolvedType.isScalarType() {
+            if hasDefaultValue {
                 typeName += "!"
             } else {
                 typeName += "?"

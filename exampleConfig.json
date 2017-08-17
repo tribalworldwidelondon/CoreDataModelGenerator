@@ -10,10 +10,10 @@
             "templateName": "CoreDataProperties.stencil",
             "templateOutputFileSuffix": "+CoreDataProperties",
             "overwriteIfExists": true,
-            "outputSubdirectory": "generatedExtensions"
+            "outputSubdirectory": ""
         }
     ],
     "dataModelPath": "./myDataModel.xcdatamodel",
-    "outputDirectory": "./output",
+    "outputDirectory": "../Showroom/src/model/coreData",
     "templatePath": "./templates"
 }

@@ -1,6 +1,6 @@
 # CoreDataModelGenerator
 
-A customisable utility for generating NSManagedObject subclasses for CoreData entities in Swift.
+A customisable utility for generating NSManagedObject subclasses for Core Data entities in Swift.
 
 ### Rationale
 
