@@ -41,6 +41,7 @@ enum AttributeType {
     case timeInterval
     case number
     case undefined
+    case custom(String)
     
     static func fromString(_ str: String) -> AttributeType {
         switch str.lowercased() {
@@ -79,6 +80,7 @@ enum AttributeType {
         case .timeInterval: return "TimeInterval"
         case .number: return "NSNumber"
         case .undefined: return "Any"
+        case .custom(let c): return c
         }
     }
     
@@ -123,6 +125,7 @@ struct Attribute {
     var hasDefaultValue: Bool = false
     var fullTypeName: String = ""
     var explicitUseScalar: Bool?
+    var customClassName: String?
     
     mutating func genFullTypeName() {
         
@@ -134,16 +137,21 @@ struct Attribute {
                 resolvedType = attributeType.toNonScalarType()
             }
         } else {
-            resolvedType = attributeType
+            switch attributeType {
+            case .transformable where customClassName != nil:
+                resolvedType = .custom(customClassName!)
+            default:
+                resolvedType = attributeType
+            }
         }
         
         var typeName = resolvedType.toTypeName()
         
         if optional && !resolvedType.isScalarType() {
             // If it's a scalar type, we don't need to unwrap.
-            if hasDefaultValue {
-                typeName += "!"
-            } else {
+            if !hasDefaultValue {
+                //typeName += "!"
+            //} else {
                 typeName += "?"
             }
         }

@@ -68,6 +68,10 @@ class CoreDataModelReader {
         attribute.optional = xmlAttribute.attributes["optional"] == "YES"
         attribute.hasDefaultValue = xmlAttribute.attributes["defaultValueString"] != nil
         
+        if xmlAttribute.attributes["customClassName"] != nil {
+            attribute.customClassName = xmlAttribute.attributes["customClassName"]
+        }
+        
         if let scalar = xmlAttribute.attributes["usesScalarValueType"] {
             attribute.explicitUseScalar = scalar == "YES"
         }
